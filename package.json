@@ -1,0 +1,33 @@
+{
+    "name": "yoruplace_backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.17.2",
+      "helmet": "^5.1.0",
+      "knex": "^1.0.3",
+      "korean-regexp": "^1.0.9",
+      "mysql": "^2.18.1",
+      "tsc-watch": "^4.6.2",
+      "typescript": "^4.5.5"
+    },
+    "scripts": {
+      "build": "tsc",
+      "start": "node ./dist/index.js",
+      "shard": "node ./native-utils/sharding.js",
+      "dev": "tsc-watch --onSuccess \"node ./dist/Main.js\""
+    },
+    "devDependencies": {
+      "@types/express": "^4.17.13",
+      "@types/nodemailer": "^6.4.4",
+      "@types/qrcode": "^1.4.2",
+      "@types/speakeasy": "^2.0.7",
+      "@types/cors": "^2.8.12",
+      "@types/node": "^17.0.17"
+    }
+  }
+  
