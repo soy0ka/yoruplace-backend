@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import knex, { Knex } from 'knex'
 
 /**
@@ -5,16 +6,15 @@ import knex, { Knex } from 'knex'
 */
 export default class DatabaseClient {
   public db: Knex
-
   constructor () {
     this.db = knex({
       client: 'mysql',
       connection: {
-        host: 'oracle.choabot.com',
-        port: 3306,
-        user: 'choabot',
-        password: 'Yurihana09@',
-        database: 'nextron'
+        host: process.env.DATABASE_HOST || 'localhost',
+        port: Number(process.env.DATABASE_PORT) || 3306,
+        user: process.env.DATABASE_USER,
+        password:  process.env.DATABASE_PASSWORD,
+        database:  process.env.DATABASE_NAME || 'YoruPlace'
       }
     })
   }
