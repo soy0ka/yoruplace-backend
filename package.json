@@ -17,7 +17,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "express": "^4.17.2",
     "helmet": "^5.1.0",
-    "knex": "^1.0.3",
+    "knex": "^2.0.0",
     "korean-regexp": "^1.0.9",
     "mysql": "^2.18.1",
     "superagent": "^8.0.0",
