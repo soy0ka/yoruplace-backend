@@ -1,5 +1,5 @@
-function getBoolean(name:string):boolean{
-  return process.argv.includes(name);
+function getBoolean (name:string):boolean {
+  return process.argv.includes(name)
 }
 export const CLOTHES:{
   /**
@@ -9,5 +9,5 @@ export const CLOTHES:{
    */
   'development'?: boolean
 } = {
-  development: getBoolean("--dev")
-};
+  development: getBoolean('--dev')
+}

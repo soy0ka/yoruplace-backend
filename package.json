@@ -39,6 +39,7 @@
     "@types/speakeasy": "^2.0.7",
     "@types/superagent": "^4.1.15",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-n": "^15.0.0"
+    "eslint-plugin-n": "^15.0.0",
+    "git-commit-msg-linter": "^4.1.3"
   }
 }
