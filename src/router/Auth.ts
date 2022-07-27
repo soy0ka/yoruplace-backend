@@ -16,6 +16,32 @@ app.use(helmet())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.get('/@me', async (req:Request, res:Response, next:NextFunction) => {
+  const { authorization } = req.headers
+  if (!authorization) return res.status(401).send({ code: 401, message: 'Invalid Token' }).end()
+  const token = (authorization as string).split('Bearer ')[1]
+  try {
+    const verify = JWT.verify(token)
+    if (!verify.ok) return res.status(401).json({ code: 401, message: 'Invaild token' })
+    const [dbuser] = await knex('Users').where('discordId', verify.id)
+    let User = await DiscordOauth2.getUser(dbuser.AccessToken).catch(async (error) => {
+      Logger.error('Discord Auth Fail').put(error.stack).out()
+      const Refresh = await DiscordOauth2.refreshToken(dbuser.RefreshToken).catch(async (error) => {
+        Logger.error('Discord Auth Fail').put(error.stack).out()
+        return res.status(401).send({ code: 401, message: 'Invalid Token' })
+      })
+      User = await DiscordOauth2.getUser(Refresh.access_token).catch(error => {
+        Logger.error('Discord Auth Fail').put(error.stack).out()
+        return res.status(401).send({ code: 401, message: 'Invalid Token' })
+      })
+    })
+    return res.status(200).send({ code: 200, message: 'Success', user: User })
+  } catch (error:any) {
+    Logger.error(error.name).put(error.stack).out()
+    return res.status(401).send({ code: 401, message: 'Invalid Token' })
+  }
+})
+
 app.get('/callback', async (req: Request, res: Response, next: NextFunction) => {
   const { code } = req.query
   if (!code) return res.status(401).send({ code: 401, message: 'Code required' })
