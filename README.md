@@ -1,0 +1,2 @@
+# yoruplace-backend
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/15137bab90484d04a132cf47cf4179ae)](https://app.codacy.com/gh/Muzihuzi/yoruplace-backend?utm_source=github.com&utm_medium=referral&utm_content=Muzihuzi/yoruplace-backend&utm_campaign=Badge_Grade_Settings)
