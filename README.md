@@ -1,4 +1,5 @@
 # yoruplace-backend
+[![Build Status](https://app.travis-ci.com/Muzihuzi/yoruplace-backend.svg?branch=main)](https://app.travis-ci.com/Muzihuzi/yoruplace-backend)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d2c9b2b1b60b4d8e82eacbd67a5bc9e1)](https://www.codacy.com/gh/Muzihuzi/yoruplace-backend/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Muzihuzi/yoruplace-backend&amp;utm_campaign=Badge_Grade)<br>
 잡다한 공간 요루플레이스의 백엔드
 #### .env file example
