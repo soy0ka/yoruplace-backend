@@ -29,7 +29,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/Main.js",
-    "dev": "tsc-watch --onSuccess \"node ./dist/Main.js\""
+    "dev": "tsc-watch --onSuccess \"node ./dist/Main.js\"",
+    "lint": "eslint src --ext .ts"
+
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
