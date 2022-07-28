@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 16
-cache: npm
+cache: yarn
 before_script:
-  - npm run build
-script: npm start
+  - yarn build
+script: yarn start
