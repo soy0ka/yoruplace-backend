@@ -29,7 +29,6 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index.js",
-    "shard": "node ./native-utils/sharding.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/Main.js\""
   },
   "devDependencies": {
