@@ -2,21 +2,21 @@ import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 
 interface DecodedPayload {
-  id: number
+  sub: number
 }
 export default class JWT {
   private static SECRET:string = process.env.JWT_SECRET || ''
   public static sign (id:number) {
-    const payload = { id }
-    return jwt.sign(payload, this.SECRET, { algorithm: 'HS256' })
+    const payload = { sub: id }
+    return jwt.sign(payload, this.SECRET, { algorithm: 'HS256', expiresIn: 60 * 60 * 24 * 30 })
   }
 
   public static verify (token:string) {
     try {
-      const decoded = jwt.verify(token, this.SECRET)
+      const decoded: unknown = jwt.verify(token, this.SECRET)
       return {
         ok: true,
-        id: (decoded as DecodedPayload).id
+        id: (decoded as DecodedPayload).sub
       }
     } catch (error:any) {
       return {
