@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - 16
+cache: npm
+before_script:
+  - npm run build
+script: npm start
