@@ -22,7 +22,7 @@
     "korean-regexp": "^1.0.9",
     "mysql": "^2.18.1",
     "superagent": "^8.0.0",
-    "tsc-watch": "^4.6.2",
+    "tsc-watch": "^5.0.3",
     "typescript": "^4.5.5",
     "util": "^0.12.4"
   },
@@ -31,7 +31,6 @@
     "start": "node ./dist/Main.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/Main.js\"",
     "lint": "eslint src --ext .ts"
-
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
