@@ -35,7 +35,8 @@ app.get('/@me', async (req:Request, res:Response, next:NextFunction) => {
         return res.status(401).send({ code: 401, message: 'Invalid Token' })
       })
     })
-    return res.status(200).send({ code: 200, message: 'Success', user: User })
+    const avatarURL = `https://cdn.discordapp.com/avatars/${User.id}/${User.avatar}?size=1024`
+    return res.status(200).send({ code: 200, message: 'Success', user: User, avatar: avatarURL })
   } catch (error:any) {
     Logger.error(error.name).put(error.stack).out()
     return res.status(401).send({ code: 401, message: 'Invalid Token' })
