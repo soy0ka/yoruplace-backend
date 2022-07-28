@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - 16
+cache: yarn
+before_script:
+  - yarn build
+script: yarn start

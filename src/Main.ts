@@ -33,6 +33,12 @@ app.use('*', async (req: Request, res: Response, next: NextFunction) => {
 
 app.listen(3000, () => {
   Logger.success('Express').put('Server Ready').next('port').put(3000).out()
+  Logger.info('Environment').put(String(process.env.ENVIRONMENT)).out()
+  switch (process.env.ENVIRONMENT) {
+    case 'ci':
+      Logger.warning('Environment').put('CI deteced process will be stop instanlty').out()
+      process.exit(0)
+  }
 })
 
 process.on('uncaughtException', e => {
