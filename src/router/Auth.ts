@@ -58,7 +58,7 @@ app.get('/kakao', async (req: Request, res: Response, next: NextFunction) => {
   const user = await KakaoOauth.getUser(tokens.data.access_token)
   if (user.error) return res.status(401).send({ code: 401, message: 'Invalid Token' })
   const [dbuser] = await knex('Users').where({ discordId: res.locals.user.id })
-  if (!dbuser) return res.status(400).send({ code: 400, message: 'Bad Request' })
+  if (!dbuser) return res.status(404).send({ code: 404, message: 'User not found' })
   try {
     await knex('Users').update({ kakaoId: user.data.id }).where({ discordId: res.locals.user.id })
   } catch (error:any) {
@@ -68,7 +68,7 @@ app.get('/kakao', async (req: Request, res: Response, next: NextFunction) => {
   return res.status(200).send({ code: 200, message: 'OK' })
 })
 
-app.get('/@me', async (req:Request, res:Response, next:NextFunction) => {
+app.get('/@me', async (req: Request, res: Response, next: NextFunction) => {
   const avatarURL = `https://cdn.discordapp.com/avatars/${res.locals.user.id}/${res.locals.user.id}?size=1024`
   return res.status(200).send({ code: 200, message: 'Success', user: res.locals.user, avatar: avatarURL })
 })
