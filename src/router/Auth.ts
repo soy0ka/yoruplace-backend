@@ -18,33 +18,6 @@ app.use(helmet())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/@me', async (req:Request, res:Response, next:NextFunction) => {
-  const { authorization } = req.headers
-  if (!authorization) return res.status(401).send({ code: 401, message: 'Invalid Token' }).end()
-  const token = (authorization as string).split('Bearer ')[1]
-  try {
-    const verify = JWT.verify(token)
-    if (!verify.ok) return res.status(401).json({ code: 401, message: 'Invaild token' })
-    const [dbuser] = await knex('Users').where('discordId', verify.id)
-    if (!dbuser) return res.status(404).json({ code: 404, message: 'User not found' })
-    let User = await DiscordOauth2.getUser(dbuser.AccessToken)
-    if (User.error) {
-      const Refresh = await DiscordOauth2.refreshToken(dbuser.RefreshToken)
-      if (Refresh.error) return res.status(401).send({ code: 401, message: 'Invalid Token' })
-      console.log(Refresh)
-      User = await DiscordOauth2.getUser(Refresh.data.access_token)
-      await knex('Users').update({
-        AccessToken: Refresh.data.access_token
-      }).where({ discordId: dbuser.id, email: dbuser.email })
-    }
-    const avatarURL = `https://cdn.discordapp.com/avatars/${User.data.id}/${User.data.avatar}?size=1024`
-    return res.status(200).send({ code: 200, message: 'Success', user: User.data, avatar: avatarURL })
-  } catch (error:any) {
-    Logger.error(error.name).put(error.stack).out()
-    return res.status(401).send({ code: 401, message: 'Invalid Token' })
-  }
-})
-
 app.get('/callback', async (req: Request, res: Response, next: NextFunction) => {
   const { code } = req.query
   if (!code) return res.status(401).send({ code: 401, message: 'Code required' })
@@ -93,6 +66,11 @@ app.get('/kakao', async (req: Request, res: Response, next: NextFunction) => {
     return res.status(500).send({ code: 500, message: 'Cannot create project (database Error)' })
   }
   return res.status(200).send({ code: 200, message: 'OK' })
+})
+
+app.get('/@me', async (req:Request, res:Response, next:NextFunction) => {
+  const avatarURL = `https://cdn.discordapp.com/avatars/${res.locals.user.id}/${res.locals.user.id}?size=1024`
+  return res.status(200).send({ code: 200, message: 'Success', user: res.locals.user, avatar: avatarURL })
 })
 
 export default app
