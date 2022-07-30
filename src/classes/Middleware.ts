@@ -28,7 +28,7 @@ export default class MiddleWare {
           AccessToken: Refresh.data.access_token
         }).where({ discordId: User.data.id, email: User.data.email })
       }
-      res.locals.user = User.data
+      res.locals.user = { kakao: Number.isInteger(Number(dbuser.kakaoId)), ...User.data }
       next()
     } catch (error:any) {
       Logger.error(error.name).put(error.stack).out()

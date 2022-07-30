@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { get, post } from 'superagent'
+import { get, post, put } from 'superagent'
 import { Logger } from '../utils/Logger'
 
 export default class DiscordOauth2 {
@@ -32,7 +32,11 @@ export default class DiscordOauth2 {
   public static async getGuilds (accessToken:string) {
     const response = await get('https://discord.com/api/users/@me/guilds')
       .set('authorization', `Bearer ${accessToken}`)
-    return response.body
+      .catch(error => {
+        Logger.error('Discord Auth Fail').put(error.stack).out()
+        return false
+      })
+    return response ? { error: false, data: (response as any).body } : { error: true }
   }
 
   public static async refreshToken (refreshToken:string) {
@@ -49,5 +53,17 @@ export default class DiscordOauth2 {
         return false
       })
     return response ? { error: false, data: (response as any).body } : { error: true }
+  }
+
+  public static async joinGuild (accessToken:string, ID:string) {
+    const response = await put(`https://discord.com/api/guilds/${process.env.DISCORD_GUILD_ID}/members/${ID}`)
+      .set('authorization', `Bot ${process.env.DISCORD_TOKEN}`)
+      .set('content-type', 'application/json')
+      .send({ access_token: accessToken })
+      .catch(error => {
+        Logger.error('Discord Auth Fail').put(error.stack).out()
+        return false
+      })
+    return response ? { error: false } : { error: true }
   }
 }

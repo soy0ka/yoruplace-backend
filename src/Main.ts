@@ -7,6 +7,7 @@ import { Logger } from './utils/Logger'
 import express, { Request, Response, NextFunction } from 'express'
 
 import Auth from './router/Auth'
+import Join from './router/Join'
 
 const app = express()
 const server = http.createServer(app)
@@ -23,6 +24,7 @@ app.use('*', async (req: Request, res: Response, next: NextFunction) => {
 })
 
 app.use('/auth', Auth)
+app.use('/join', Join)
 
 app.use('/error', async (req: Request, res: Response, next: NextFunction) => {
   res.status(500).send({ code: 500, message: 'Error' })
