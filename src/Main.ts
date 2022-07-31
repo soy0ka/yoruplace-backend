@@ -31,7 +31,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('*', async (req: Request, res: Response, next: NextFunction) => {
-  Logger.log(req.method).put(req.params?.['0']).next('user-agent').put(req.headers?.['user-agent']).next('query').put(JSON.stringify(req.query)).next('body').put(JSON.stringify(req.body)).out()
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+  Logger.log(req.method).put(req.params?.['0']).next('ip').put(ip).next('user-agent').put(req.headers?.['user-agent']).next('query').put(JSON.stringify(req.query)).next('body').put(JSON.stringify(req.body)).out()
   next()
 })
 
