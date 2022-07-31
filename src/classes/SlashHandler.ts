@@ -21,13 +21,12 @@ export default class SlashHandler {
       const commandName = commandFile.split('.').slice(0, -1).join('.')
       this.commands.set(commandName, require(join(__dirname, '../commands/' + commandFile)))
     }
-    console.log(this.commands)
   }
 
   public async runCommand (interaction: CommandInteraction, db: DatabaseClient) {
     const commandName = interaction.commandName
     const command = this.commands.get(commandName)
-    console.log(command)
+
     if (!command) return
     if (!interaction) return
 
