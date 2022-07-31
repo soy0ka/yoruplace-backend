@@ -4,14 +4,26 @@ import helmet from 'helmet'
 import http from 'http'
 import { Server } from 'socket.io'
 import { Logger } from './utils/Logger'
+import DatabaseClient from './classes/Database'
 import express, { Request, Response, NextFunction } from 'express'
 
+// routers
 import Auth from './router/Auth'
 import Join from './router/Join'
+
+// Discord bot
+import BotClient from './classes/Botclient'
+import SlashHandler from './classes/SlashHandler'
+import onReady from './events/onReady'
+import onInteractionCreate from './events/onInteractionCreate'
+
+const slash = new SlashHandler()
+const db = new DatabaseClient().db
 
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server, { cors: { origin: '*' } })
+const client = new BotClient()
 
 app.use(cors())
 app.use(helmet())
@@ -48,6 +60,9 @@ server.listen(3000, () => {
       process.exit(0)
   }
 })
+
+client.registEvent('ready', onReady, slash)
+client.registEvent('interactionCreate', onInteractionCreate, slash, db)
 
 process.on('uncaughtException', e => {
   Logger.error('Unhandled Exception').put(e.stack).out()
