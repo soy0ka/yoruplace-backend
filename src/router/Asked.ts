@@ -20,16 +20,16 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const questions = await knex('Questions')
-    return res.status(200).send({ code: 200, message: 'OK', questions })
+    return res.status(200).send({ code: 200, message: 'OK', questions }).end()
   } catch (error:any) {
     Logger.error('Knex').put(error.stack).out()
-    return res.status(500).send({ code: 500, message: 'Internal Server Error' })
+    return res.status(500).send({ code: 500, message: 'Internal Server Error' }).end()
   }
 })
 
 app.post('/add', async (req: Request, res: Response, next: NextFunction) => {
   const { question } = req.body
-  if (!question) return res.status(400).send({ code: 400, message: 'Bad request' })
+  if (!question) return res.status(400).send({ code: 400, message: 'Bad request' }).end()
   try {
     await knex('Questions').insert({
       question,
@@ -42,10 +42,10 @@ app.post('/add', async (req: Request, res: Response, next: NextFunction) => {
       .setFooter({ text: '요루플레이스' })
       .setTimestamp()
     CNGWebhook.send({ embeds: [embed] })
-    return res.status(200).send({ code: 200, message: 'OK' })
+    return res.status(200).send({ code: 200, message: 'OK' }).end()
   } catch (error:any) {
     Logger.error('Knex').put(error.stack).out()
-    return res.status(500).send({ code: 500, message: 'Internal Server Error' })
+    return res.status(500).send({ code: 500, message: 'Internal Server Error' }).end()
   }
 })
 
