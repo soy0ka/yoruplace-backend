@@ -1,4 +1,4 @@
-import { Client, Guild, Colors } from 'discord.js'
+import { Client, Guild, Colors, APIEmbed } from 'discord.js'
 import { getBasePreset } from '../components/BasePreset'
 import { getEmbedMessage } from '../components/EmbedMessage'
 import { Logger } from '../utils/Logger'
@@ -10,13 +10,12 @@ export async function processMessageLogger (client:Client, guild:Guild):Promise<
   if (!logChannel?.isTextBased()) throw Error(`Invalid logChannel: ${process.env.MODERATION_LOG_CHANNEL}`)
 
   client.on('messageUpdate', async (before, after) => {
-    console.log(after)
     if (before.author?.bot) {
       return
     }
-    const data = getBasePreset('✏️ 메시지 수정', Colors.Yellow, before)
-    console.log(data)
-    // data.embeds![0].description = `메시지 번호: ${before.id} [이동](https://discord.com/channels/${before.guildId}/${before.channelId}/${before.id})`
+    const data = getBasePreset('✏️ 메시지 수정', Colors.Yellow, before);
+
+    (data.embeds![0] as APIEmbed).description = `메시지 번호: ${before.id} [이동](https://discord.com/channels/${before.guildId}/${before.channelId}/${before.id})`
     data.embeds!.push(
       await getEmbedMessage(before),
       await getEmbedMessage(after)
@@ -30,9 +29,9 @@ export async function processMessageLogger (client:Client, guild:Guild):Promise<
     if (message.author?.bot) {
       return
     }
-    const data = getBasePreset('🗑 메시지 삭제', Colors.Red, message)
+    const data = getBasePreset('🗑 메시지 삭제', Colors.Red, message);
 
-    // data.embeds![0].description = `메시지 번호: ${message.id}`
+    (data.embeds![0] as APIEmbed).description = `메시지 번호: ${message.id}`
     data.embeds!.push(
       await getEmbedMessage(message)
     )

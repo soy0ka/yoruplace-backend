@@ -10,6 +10,7 @@ import express, { Request, Response, NextFunction } from 'express'
 // routers
 import Auth from './router/Auth'
 import Join from './router/Join'
+import Asked from './router/Asked'
 
 // Discord bot
 import BotClient from './classes/Botclient'
@@ -38,6 +39,7 @@ app.use('*', async (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/auth', Auth)
 app.use('/join', Join)
+app.use('/asked', Asked)
 
 app.use('/error', async (req: Request, res: Response, next: NextFunction) => {
   res.status(500).send({ code: 500, message: 'Error' })

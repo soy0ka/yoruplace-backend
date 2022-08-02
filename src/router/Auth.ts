@@ -63,7 +63,7 @@ app.get('/kakao', async (req: Request, res: Response, next: NextFunction) => {
     await knex('Users').update({ kakaoId: user.data.id }).where({ discordId: res.locals.user.id })
   } catch (error:any) {
     Logger.error('Knex').put(error.stack).out()
-    return res.status(500).send({ code: 500, message: 'Cannot create project (database Error)' })
+    return res.status(500).send({ code: 500, message: 'database Error' })
   }
   return res.status(200).send({ code: 200, message: 'OK' })
 })
