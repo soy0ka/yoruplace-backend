@@ -20,7 +20,16 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const questions = await knex('Questions')
-    return res.status(200).send({ code: 200, message: 'OK', questions }).end()
+    const result = []
+    for (const question of questions) {
+      result.push({
+        id: question.id,
+        question: question.hide ? Math.random().toString(36) : question.question,
+        answer: question.hide ? Math.random().toString(36) : question.answer,
+        hide: question.hide
+      })
+    }
+    return res.status(200).send({ code: 200, message: 'OK', questions: result }).end()
   } catch (error:any) {
     Logger.error('Knex').put(error.stack).out()
     return res.status(500).send({ code: 500, message: 'Internal Server Error' }).end()
