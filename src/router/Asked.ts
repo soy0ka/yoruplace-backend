@@ -6,9 +6,11 @@ import { Logger } from '../utils/Logger'
 import DatabaseClient from '../classes/Database'
 // import MiddleWare from '../classes/Middleware'
 import express, { Request, Response, NextFunction } from 'express'
+import { WebhookClient, EmbedBuilder, Colors } from 'discord.js'
 
 const app = express.Router()
 const knex = new DatabaseClient().db
+const CNGWebhook = new WebhookClient({ url: process.env.DISCORD_CNG_WEBHOOK as string })
 
 app.use(cors())
 app.use(helmet())
@@ -33,6 +35,13 @@ app.post('/add', async (req: Request, res: Response, next: NextFunction) => {
       question,
       hide: 1
     })
+    const embed = new EmbedBuilder()
+      .setTitle('📥 질문이 도착했어요')
+      .setColor(Colors.Gold)
+      .setDescription(question)
+      .setFooter({ text: '요루플레이스' })
+      .setTimestamp()
+    CNGWebhook.send({ embeds: [embed] })
     return res.status(200).send({ code: 200, message: 'OK' })
   } catch (error:any) {
     Logger.error('Knex').put(error.stack).out()
