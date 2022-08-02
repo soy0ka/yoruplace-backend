@@ -3,7 +3,15 @@ import { Client, ClientEvents } from 'discord.js'
 
 export default class BotClient extends Client {
   constructor () {
-    super({ intents: ['Guilds', 'GuildMembers', 'MessageContent', 'GuildPresences', 'GuildVoiceStates'] })
+    super({
+      intents: [
+        'Guilds',
+        'GuildMembers',
+        'MessageContent',
+        'GuildVoiceStates',
+        'GuildMessages'
+      ]
+    })
 
     this.token = process.env.DISCORD_TOKEN!
     this.login()
