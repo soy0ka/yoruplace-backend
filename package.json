@@ -21,7 +21,7 @@
     "express": "^4.17.2",
     "helmet": "^5.1.0",
     "http": "^0.0.1-security",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^2.0.0",
     "korean-regexp": "^1.0.9",
     "mysql": "^2.18.1",
